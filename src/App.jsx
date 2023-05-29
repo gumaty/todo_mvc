@@ -5,6 +5,7 @@ function App() {
 
     const [value, setValue] = useState('');
     const [tasks, setTasks] = useState([]);
+    const [filter, setFilter] = useState('all');
 
     function getId() {
         if (!tasks.length) return 1;
@@ -59,7 +60,8 @@ return (
         />
         <ul>
             {
-                tasks.map((task) => (
+                tasks.filter((task) => filter === 'all' ? true : task.status === filter)
+                    .map((task) => (
                     <li key={task.id}>
                         <button
                             onClick={handleChangeStatus(task)}
@@ -74,6 +76,12 @@ return (
                 ))
             }
         </ul>
+
+        <div>
+            <button onClick={() => setFilter('all')}>All</button>
+            <button onClick={() => setFilter('active')}>Active</button>
+            <button onClick={() => setFilter('done')}>Completed</button>
+        </div>
         {tasks.some((task) => task.status === 'done') && (
             <button
                 onClick={handleDeleteDoneTasks}
