@@ -58,34 +58,41 @@ return (
             onChange={handleInput}
             onKeyUp={handleAddTask}
         />
-        <ul>
-            {
-                tasks.filter((task) => filter === 'all' ? true : task.status === filter)
-                    .map((task) => (
-                    <li key={task.id}>
-                        <button
-                            onClick={handleChangeStatus(task)}
-                            className={task.status === 'active' ? 'active' : 'done'}
-                        >{task.status}</button>
-                        <span>{task.name}</span>
-                        <button
-                            onClick={handleDelete(task)}
-                        >delete
-                        </button>
-                    </li>
-                ))
-            }
-        </ul>
 
-        <div>
-            <button onClick={() => setFilter('all')}>All</button>
-            <button onClick={() => setFilter('active')}>Active</button>
-            <button onClick={() => setFilter('done')}>Completed</button>
-        </div>
-        {tasks.some((task) => task.status === 'done') && (
-            <button
-                onClick={handleDeleteDoneTasks}
-            >Clear completed</button>
+        {!!tasks.length && (
+            <>
+                <ul>
+                    {
+                        tasks.filter((task) => filter === 'all' ? true : task.status === filter)
+                            .map((task) => (
+                                <li key={task.id}>
+                                    <button
+                                        onClick={handleChangeStatus(task)}
+                                        className={task.status === 'active' ? 'active' : 'done'}
+                                    >{task.status}</button>
+                                    <span>{task.name}</span>
+                                    <button
+                                        onClick={handleDelete(task)}
+                                    >delete
+                                    </button>
+                                </li>
+                            ))
+                    }
+                </ul>
+
+                <span>{tasks.filter((task) => task.status === 'active').length}</span>
+
+                <div>
+                    <button onClick={() => setFilter('all')}>All</button>
+                    <button onClick={() => setFilter('active')}>Active</button>
+                    <button onClick={() => setFilter('done')}>Completed</button>
+                </div>
+                {tasks.some((task) => task.status === 'done') && (
+                    <button
+                        onClick={handleDeleteDoneTasks}
+                    >Clear completed</button>
+                )}
+            </>
         )}
 
     </>
